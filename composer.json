@@ -1,0 +1,16 @@
+{
+    "name": "Akuriatadev/Wordit",
+    "description": "This is a private package for Content Management System.",
+    "license": "MIT",
+    "keywords": ["framework", "laravel", "cms"],
+    "type": "project",
+    "authors": [
+        {
+            "name": "Adrian Kuriata",
+            "email": "adriandj83@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {}
+}
