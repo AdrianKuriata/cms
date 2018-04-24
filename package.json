@@ -20,6 +20,6 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "vali-admin": "^2.3.0"
+        "@coreui/ajax": "1.0.10"
     }
 }

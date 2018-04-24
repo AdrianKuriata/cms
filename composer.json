@@ -1,5 +1,5 @@
 {
-    "name": "Akuriatadev/Wordit",
+    "name": "akuriatadev/wordit",
     "description": "This is a private package for Content Management System.",
     "license": "MIT",
     "keywords": ["framework", "laravel", "cms"],

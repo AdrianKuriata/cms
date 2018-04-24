@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@coreui/ajax@1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@coreui/ajax/-/ajax-1.0.10.tgz#81f7198c325a7cb1c1892a6429f957f3018575ce"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -7160,10 +7164,6 @@ uuid@^2.0.1:
 uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
-
-vali-admin@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/vali-admin/-/vali-admin-2.3.0.tgz#c777c3f083e3b23645b0b80d1357b8b31ffafefd"
 
 vali-date@^1.0.0:
   version "1.0.0"

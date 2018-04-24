@@ -12912,7 +12912,7 @@ return jQuery;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(4);
-module.exports = __webpack_require__(14);
+module.exports = __webpack_require__(15);
 
 
 /***/ }),
@@ -12929,6 +12929,7 @@ $.ajaxSetup({
 
 window.Vue = __webpack_require__(7);
 
+// COREUI
 __webpack_require__(11);
 
 // Components
@@ -12936,6 +12937,9 @@ __webpack_require__(12);
 
 // Validation
 __webpack_require__(13);
+
+// Upgrades
+__webpack_require__(14);
 
 /***/ }),
 /* 5 */
@@ -28311,33 +28315,152 @@ process.umask = function() { return 0; };
 /* 11 */
 /***/ (function(module, exports) {
 
-(function () {
-	"use strict";
+/*****
+* CONFIGURATION
+*/
 
-	var treeviewMenu = $('.app-menu');
+//Main navigation
+$.navigation = $('nav > ul.nav');
 
-	// Toggle Sidebar
-	$('[data-toggle="sidebar"]').click(function(event) {
-		event.preventDefault();
-		$('.app').toggleClass('sidenav-toggled');
-	});
+$.panelIconOpened = 'icon-arrow-up';
+$.panelIconClosed = 'icon-arrow-down';
 
-	// Activate sidebar treeview toggle
-	$("[data-toggle='treeview']").click(function(event) {
-		event.preventDefault();
-		if(!$(this).parent().hasClass('is-expanded')) {
-			treeviewMenu.find("[data-toggle='treeview']").parent().removeClass('is-expanded');
-		}
-		$(this).parent().toggleClass('is-expanded');
-	});
+//Default colours
+$.brandPrimary =  '#20a8d8';
+$.brandSuccess =  '#4dbd74';
+$.brandInfo =     '#63c2de';
+$.brandWarning =  '#f8cb00';
+$.brandDanger =   '#f86c6b';
 
-	// Set initial active toggle
-	$("[data-toggle='treeview.'].is-expanded").parent().toggleClass('is-expanded');
+$.grayDark =      '#2a2c36';
+$.gray =          '#55595c';
+$.grayLight =     '#818a91';
+$.grayLighter =   '#d1d4d7';
+$.grayLightest =  '#f8f9fa';
 
-	//Activate bootstrip tooltips
-	$("[data-toggle='tooltip']").tooltip();
+'use strict';
 
-})();
+/****
+* MAIN NAVIGATION
+*/
+
+$(document).ready(function($){
+
+  // Add class .active to current link
+  $.navigation.find('a').each(function(){
+
+    var cUrl = String(window.location).split('?')[0];
+
+    if (cUrl.substr(cUrl.length - 1) == '#') {
+      cUrl = cUrl.slice(0,-1);
+    }
+
+    if ($($(this))[0].href==cUrl) {
+      $(this).addClass('active');
+
+      $(this).parents('ul').add(this).each(function(){
+        $(this).parent().addClass('open');
+      });
+    }
+  });
+
+  // Dropdown Menu
+  $.navigation.on('click', 'a', function(e){
+
+    if ($.ajaxLoad) {
+      e.preventDefault();
+    }
+
+    if ($(this).hasClass('nav-dropdown-toggle')) {
+      $(this).parent().toggleClass('open');
+      resizeBroadcast();
+    }
+
+  });
+
+  function resizeBroadcast() {
+
+    var timesRun = 0;
+    var interval = setInterval(function(){
+      timesRun += 1;
+      if(timesRun === 5){
+        clearInterval(interval);
+      }
+      window.dispatchEvent(new Event('resize'));
+    }, 62.5);
+  }
+
+  /* ---------- Main Menu Open/Close, Min/Full ---------- */
+  $('.sidebar-toggler').click(function(){
+    $('body').toggleClass('sidebar-hidden');
+    resizeBroadcast();
+  });
+
+  $('.sidebar-minimizer').click(function(){
+    $('body').toggleClass('sidebar-minimized');
+    resizeBroadcast();
+  });
+
+  $('.brand-minimizer').click(function(){
+    $('body').toggleClass('brand-minimized');
+  });
+
+  $('.aside-menu-toggler').click(function(){
+    $('body').toggleClass('aside-menu-hidden');
+    resizeBroadcast();
+  });
+
+  $('.mobile-sidebar-toggler').click(function(){
+    $('body').toggleClass('sidebar-mobile-show');
+    resizeBroadcast();
+  });
+
+  $('.sidebar-close').click(function(){
+    $('body').toggleClass('sidebar-opened').parent().toggleClass('sidebar-opened');
+  });
+
+  /* ---------- Disable moving to top ---------- */
+  $('a[href="#"][data-top!=true]').click(function(e){
+    e.preventDefault();
+  });
+
+});
+
+/****
+* CARDS ACTIONS
+*/
+
+$('.card-actions').on('click', 'a, button', function(e){
+  e.preventDefault();
+
+  if ($(this).hasClass('btn-close')) {
+    $(this).parent().parent().parent().fadeOut();
+  } else if ($(this).hasClass('btn-minimize')) {
+    // var $target = $(this).parent().parent().next('.card-body').collapse({toggle: true});
+    if ($(this).hasClass('collapsed')) {
+      $('i',$(this)).removeClass($.panelIconOpened).addClass($.panelIconClosed);
+    } else {
+      $('i',$(this)).removeClass($.panelIconClosed).addClass($.panelIconOpened);
+    }
+  } else if ($(this).hasClass('btn-setting')) {
+    $('#myModal').modal('show');
+  }
+
+});
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function init(url) {
+
+  /* ---------- Tooltip ---------- */
+  $('[rel="tooltip"],[data-rel="tooltip"]').tooltip({"placement":"bottom",delay: { show: 400, hide: 200 }});
+
+  /* ---------- Popover ---------- */
+  $('[rel="popover"],[data-rel="popover"],[data-toggle="popover"]').popover();
+
+}
 
 
 /***/ }),
@@ -28461,6 +28584,98 @@ $(document).ready(function () {
 
 /***/ }),
 /* 14 */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+    function checkCoreUpdates(version) {
+        var el = $('.dashboard-core .core-version');
+        var currentVersion = el.data('current');
+
+        if (version != currentVersion) {
+            el.attr('title', 'Jest nowsza wersja oprogramowania, która oczekuje na aktualizację.');
+            el.html('Wersja: ' + currentVersion + '<BR /> Nowsza wersja: ' + version);
+            $('.dashboard-core').find('[data-action="upgrade-core"]').removeClass('d-none');
+        } else {
+            $('.dashboard-core').find('[data-action="upgrade-core"]').addClass('d-none');
+        }
+    }
+
+    function getLog(url) {
+        var logs = [];
+        return setInterval(function () {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function success(d) {
+                    if (d.prepared != null) {
+                        logs = d.prepared;
+                    }
+
+                    $('.list-log').html('');
+
+                    $.each(logs, function (key, row) {
+                        $('.list-log').append('\n                            <div class="list-group-item list-group-item-action flex-column align-items-start">\n                                <div class="d-flex w-100 justify-content-between">\n                                    <small class="mb-1">' + row.info + '</small>\n                                    <small class="text-muted">' + row.data + '</small>\n                                </div>\n                            </div>\n                        ');
+                    });
+                }
+            });
+        }, 1000);
+    }
+
+    var getLogsCore;
+    $('button[data-action]').on('click load', function () {
+        var self = this;
+        $(self).append(' <i class="fa fa-spinner fa-spin button-spinner"></i>');
+        var type = $(self).data('action');
+        var allowed = ['check-upgrade-core', 'upgrade-core', 'upgrade-system', 'latest-system-changes'];
+        var url = $(self).data('url');
+        var log = $(self).data('log');
+
+        if (type == 'upgrade-core') {
+            getLogsCore = getLog(log);
+            $('.logs').removeClass('d-none');
+        }
+
+        if (allowed.includes(type)) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function success(d) {
+                    if (type == 'check-upgrade-core') {
+                        checkCoreUpdates(d.version);
+                        $(self).find('.button-spinner').remove();
+                    }
+
+                    if (type == 'upgrade-core') {
+                        if (d == 200) {
+                            clearInterval(getLogsCore);
+                            $(self).find('.button-spinner').remove();
+                        }
+                    }
+                }
+            });
+        }
+    });
+
+    var dash = $(this).find('.dashboard-core');
+
+    if (dash.length > 0) {
+        var action = $(this).find('button[data-action="check-upgrade-core"]').data('url');
+
+        $.ajax({
+            url: action,
+            type: 'GET',
+            dataType: 'json',
+            success: function success(d) {
+                checkCoreUpdates(d.version);
+            }
+        });
+    }
+});
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

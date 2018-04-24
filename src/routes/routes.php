@@ -11,9 +11,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
 
     // Core loaders and functions
     Route::group(['prefix' => 'core'], function () {
-        Route::get('/repositories', 'RepositoryController@getRepositories')->name('wordit.admin.core.repositories');
-        Route::post('/upgrade-all', 'RepositoryController@upgrade')->name('wordit.admin.core.upgrade');
+        Route::get('/check', 'CoreController@checkCore')->name('wordit.admin.core.check');
+        Route::get('/upgrade', 'CoreController@upgradeCore')->name('wordit.admin.core.upgrade');
+        Route::get('/upgrade-log', 'CoreController@upgradeLog')->name('wordit.admin.core.upgrade.log');
+
+        Route::group(['prefix' => 'system'], function () {
+
+        });
     });
+
+    // Repositories
+    // Route::group(['prefix' => 'repositories'], function () {
+    //     Route::get('/', 'RepositoryController@getRepositories')->name('wordit.admin.core.repositories');
+    //     Route::post('/upgrade-all', 'RepositoryController@upgrade')->name('wordit.admin.core.upgrade');
+    // });
 
     // Users
     Route::group(['prefix' => 'users'], function () {

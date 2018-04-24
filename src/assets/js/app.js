@@ -8,10 +8,14 @@ $.ajaxSetup({
 
 window.Vue = require('vue');
 
-require('vali-admin/docs/js/main.js');
+// COREUI
+require('@coreui/ajax/Static_Starter_GULP/src/js/app.js');
 
 // Components
 require('./components/repositories.js');
 
 // Validation
 require('./partials/validation.js');
+
+// Upgrades
+require('./partials/upgrades.js');

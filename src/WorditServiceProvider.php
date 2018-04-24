@@ -15,6 +15,9 @@ class WorditServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Load hook system
+        include_once __DIR__ . '/globals/hook-system.php';
+
         // Load routes
         include_once __DIR__.'/routes/routes.php';
 
@@ -45,6 +48,6 @@ class WorditServiceProvider extends ServiceProvider
          // Merge config
          $this->mergeConfigFrom(
              __DIR__.'/config/wordit.php', 'wordit'
-         );
+         );        
     }
 }

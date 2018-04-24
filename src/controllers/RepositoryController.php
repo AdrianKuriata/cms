@@ -39,7 +39,7 @@ class RepositoryController extends Controller
         if (!$outdated->isSuccessful()) {
             throw new ProcessFailedException($outdated);
         }
-
+        
         preg_match_all('/\w\S+.*/', $info->getOutput(), $infos, PREG_SET_ORDER, 0);
         preg_match_all('/\w\S+.*/', $outdated->getOutput(), $outdateds, PREG_SET_ORDER, 0);
         $repositories = collect();
