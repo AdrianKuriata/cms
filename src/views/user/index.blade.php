@@ -5,7 +5,6 @@
 @section('title-description', 'Użytkownicy panelu zarządzania treścią')
 
 @section('wordit::content')
-{{do_hook('admin_menu')}}
 <div class="card">
     <div class="card-body">
         <h3 class="tile-title mb-0">
@@ -40,7 +39,7 @@
                         {{$user->email}}
                     </td>
                     <td>
-                        Administrator
+                        {{$user->group->name}}
                     </td>
                     <td>
                         cos
@@ -55,6 +54,7 @@
                 @endforelse
             </tbody>
         </table>
+        {-- $users->render() --}
     </div>
 </div>
 @endsection

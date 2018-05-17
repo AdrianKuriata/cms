@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' => 'Akuriatadev\Wordit\Controllers'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth', 'can:view-admin'], 'namespace' => 'Akuriatadev\Wordit\Controllers'], function () {
     // Dashboard
     Route::get('/', 'DashboardController@index')->name('wordit.admin.dashboard.index');
 
@@ -31,17 +31,27 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
         Route::get('/', 'UserController@index')->name('wordit.admin.user.index');
     });
 
+    // Groups
+    Route::group(['prefix' => 'groups', 'middleware' => 'can:view-group'], function () {
+        Route::get('/', 'GroupController@index')->name('wordit.admin.groups.index');
+
+        Route::group(['prefix' => 'create', 'middleware' => 'can:create-group'], function () {
+            Route::get('/', 'GroupController@getCreate')->name('wordit.admin.groups.create.get');
+            Route::post('/', 'GroupController@postCreate')->name('wordit.admin.groups.create.post');
+        });
+    });
+
     // Models
     if (!empty(config('wordit.models'))) {
         foreach (config('wordit.models') as $model) {
-            $model = new $model['model'];
+            $model = new $model;
 
             Route::group(['prefix' => $model->getRouteName(), 'as' => 'wordit.admin.'], function () use ($model) {
                 Route::get('/', 'ModelController@index')->name($model->getRouteName().'.index');
 
                 Route::group(['prefix' => 'create'], function () use ($model) {
-                    Route::get('/', 'ModelController@create')->name($model->getRouteName().'.create.get');
-                    Route::post('/', 'ModelController@createStore')->name($model->getRouteName().'.create.post');
+                    Route::get('/', 'ModelController@getCreate')->name($model->getRouteName().'.create.get');
+                    Route::post('/', 'ModelController@postCreate')->name($model->getRouteName().'.create.post');
                 });
             });
         }

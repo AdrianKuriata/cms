@@ -10,22 +10,21 @@
                 <a class="nav-link" href="{{route('wordit.admin.repositories.index')}}"><i class="fa fa-archive"></i> Repozytoria</a>
             </li>
 
+            @can('view-group')
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('wordit.admin.groups.index')}}"><i class="fa fa-users"></i> Grupy</a>
+            </li>
+            @endcan
+            @can('view-group')
             <li class="nav-item">
                 <a class="nav-link" href="{{route('wordit.admin.user.index')}}"><i class="fa fa-users"></i> Użytkownicy</a>
             </li>
-            @dd(do_hook('admin_menu'))
-            @if (do_hook('admin_menu'))
-                @foreach (do_hook('admin_menu') as $menu)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('wordit.admin.user.index')}}"><i class="fa fa-users"></i> {{$menu['single_name']}}</a>
-                    </li>
-                @endforeach
-            @endif
+            @endcan
 
             @if (!empty(config('wordit.models')))
                 @foreach (config('wordit.models') as $model)
                     @php
-                        $model = new $model['model'];
+                        $model = new $model;
                     @endphp
 
                     <li class="nav-item">

@@ -28566,6 +28566,10 @@ $(document).ready(function () {
                 console.log('Form was send and got 200 code.');
                 console.log(data);
 
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+
                 $('form-loader').removeAttr('style');
             },
             error: function error(_error) {

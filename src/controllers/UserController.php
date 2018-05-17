@@ -2,7 +2,7 @@
 
 namespace Akuriatadev\Wordit\Controllers;
 
-use App\User;
+use Akuriatadev\Wordit\Models\User;
 
 use Illuminate\Http\Request;
 

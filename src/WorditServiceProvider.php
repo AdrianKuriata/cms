@@ -2,12 +2,15 @@
 
 namespace Akuriatadev\Wordit;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Gate;
+use Akuriatadev\Wordit\Traits\WorditTrait;
 
 class WorditServiceProvider extends ServiceProvider
 {
+    use WorditTrait;
     /**
      * Bootstrap services.
      *
@@ -15,11 +18,16 @@ class WorditServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerGates();
+
         // Load hook system
-        include_once __DIR__ . '/globals/hook-system.php';
+        //include_once __DIR__ . '/globals/hook-system.php';
 
         // Load routes
         include_once __DIR__.'/routes/routes.php';
+
+        // Load migrations
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
 
         // Publish assets
         $this->publishes([
@@ -30,6 +38,11 @@ class WorditServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/config/wordit.php' => config_path('wordit.php'),
         ]);
+
+        // Seeds
+        $this->publishes([
+            __DIR__.'/seeds' => database_path('seeds')
+        ]);
     }
 
     /**
@@ -39,15 +52,20 @@ class WorditServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Load controllers
-        $this->app->make('Akuriatadev\Wordit\Controllers\DashboardController');
-
          // Load views
          $this->loadViewsFrom(__DIR__.'/views', 'wordit');
 
          // Merge config
          $this->mergeConfigFrom(
              __DIR__.'/config/wordit.php', 'wordit'
-         );        
+         );
+    }
+
+    public function registerGates() {
+        foreach ($this->getAllPermissionsFillable() as $permKey => $permName) {
+            Gate::define($permKey, function ($user) use ($permName) {
+                return $user->hasPermission($permName);
+            });
+        }
     }
 }
