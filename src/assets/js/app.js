@@ -19,3 +19,6 @@ require('./partials/validation.js');
 
 // Upgrades
 require('./partials/upgrades.js');
+
+// Delete
+require('./partials/delete.js');

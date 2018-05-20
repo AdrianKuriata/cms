@@ -18,6 +18,30 @@ trait WorditTrait {
         return $this->adminTable;
     }
 
+    public function getValidationRules()
+    {
+        return $this->validation;
+    }
+
+    public function getController()
+    {
+        if ($this->controller != null) {
+            return $this->controller;
+        }
+
+        return false;
+    }
+
+    public function getFormFieldsLeft()
+    {
+        return $this->form['left'];
+    }
+
+    public function getFormFieldsRight()
+    {
+        return $this->form['right'];
+    }
+
     public function getPermissions() {
         return $this->permissions;
     }
@@ -41,7 +65,9 @@ trait WorditTrait {
 
         foreach (config('wordit.models') as $model) {
             $getInstanceModel = new $model;
-            $permissions = array_merge($permissions, $getInstanceModel->getPermissions());
+            if (is_array($getInstanceModel->getPermissions())) {
+                $permissions = array_merge($permissions, $getInstanceModel->getPermissions());
+            }
         }
 
         return $permissions;

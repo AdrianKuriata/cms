@@ -15,11 +15,18 @@ class Group extends Model
         'name'
     ];
 
-    public function users() {
+    public function users()
+    {
         return $this->hasMany('Akuriatadev\Wordit\Models\User');
     }
 
-    public function permission() {
+    public function permission()
+    {
         return $this->hasOne('Akuriatadev\Wordit\Models\Permission');
+    }
+
+    public function scopeWithoutRoots($query)
+    {
+        return $query->whereNotIn('id', config('wordit.not_groups_array'));
     }
 }

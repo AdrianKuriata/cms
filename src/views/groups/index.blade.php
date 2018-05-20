@@ -22,9 +22,6 @@
                             Nazwa
                         </th>
                         <th>
-                            Użytkowników
-                        </th>
-                        <th>
                         </th>
                     </tr>
                 </thead>
@@ -36,15 +33,13 @@
                             {{$group->name}}
                         </td>
                         <td>
-                            {{$group->users_count}}
-                        </td>
-                        <td>
-
+                            <a href="{{route('wordit.admin.groups.update.get', $group->id)}}" class="btn btn-primary"><i class="fa fa-pencil-alt"></i></a>
+                            <button type="button" data-href="{{route('wordit.admin.groups.delete', $group->id)}}" class="btn btn-danger delete-item"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3">
+                        <td colspan="2">
                             Przykro nam, ale żadna z grup nie została jeszcze utworzona
                         </td>
                     </tr>

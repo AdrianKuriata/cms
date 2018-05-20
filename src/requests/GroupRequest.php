@@ -32,7 +32,7 @@ class GroupRequest extends FormRequest
         ];
 
         foreach ($permissions as $perm) {
-            $validation[$perm] = 'sometimes|nullable|boolean';
+            $validation[$perm] = 'nullable|boolean';
         }
 
         return $validation;

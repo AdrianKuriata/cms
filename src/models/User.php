@@ -34,4 +34,9 @@ class User extends Authenticatable
     public function hasPermission($perm) {
         return $this->group->permission->{$perm};
     }
+
+    public function scopeWithoutRoots($query)
+    {
+        return $query->whereNotIn('id', config('wordit.not_users_array'));
+    }
 }

@@ -20,9 +20,6 @@ class WorditServiceProvider extends ServiceProvider
     {
         $this->registerGates();
 
-        // Load hook system
-        //include_once __DIR__ . '/globals/hook-system.php';
-
         // Load routes
         include_once __DIR__.'/routes/routes.php';
 

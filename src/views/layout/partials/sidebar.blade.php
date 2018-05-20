@@ -15,9 +15,9 @@
                 <a class="nav-link" href="{{route('wordit.admin.groups.index')}}"><i class="fa fa-users"></i> Grupy</a>
             </li>
             @endcan
-            @can('view-group')
+            @can('view-user')
             <li class="nav-item">
-                <a class="nav-link" href="{{route('wordit.admin.user.index')}}"><i class="fa fa-users"></i> Użytkownicy</a>
+                <a class="nav-link" href="{{route('wordit.admin.users.index')}}"><i class="fa fa-users"></i> Użytkownicy</a>
             </li>
             @endcan
 
@@ -28,7 +28,7 @@
                     @endphp
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('wordit.admin.'.$model->getRouteName().'.index')}}">{{$model->label('plural_name')}}</a>
+                        <a class="nav-link" href="{{route('wordit.admin.'.$model->getRouteName().'.index')}}"><i class="{{$model->label('icon')}}"></i> {{$model->label('plural_name')}}</a>
                     </li>
                 @endforeach
             @endif

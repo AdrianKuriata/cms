@@ -4,7 +4,7 @@ namespace Akuriatadev\Wordit\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ModelRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,16 @@ class ModelRequest extends FormRequest
      */
     public function rules()
     {
-        $model = null;
-        foreach (config('wordit.models') as $model) {
-            $getModelInstance = new $model;
-            if ($this->segment(2) == $getModelInstance->getRouteName()) {
-                $model = $getModelInstance;
-            }
+        if ($this->route('id') == null) {
+            $id = '';
+        } else {
+            $id = ',' . $this->route('id');
         }
 
-        return $model->getValidationRules();
+        return [
+            'name' => 'required|min:3|max:64',
+            'email' => 'required|min:5|max:120|unique:users,email' . $id,
+            'group_id' => 'required|numeric|exists:groups,id'
+        ];
     }
 }

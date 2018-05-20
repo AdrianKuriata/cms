@@ -1,36 +1,64 @@
 @extends('wordit::layout.app')
 
-@section('title-page', $model['labels']['plural_name'] . ' - Tworzenie - Panel zarządzania')
+@section('title-page', $model->label('plural_name') . ' - Tworzenie - Panel zarządzania')
 
-@section('title-description',  $model['labels']['plural_name'] . ' panelu zarządzania treścią')
+@section('title-description',  $model->label('plural_name') . ' panelu zarządzania treścią')
 
 @section('wordit::content')
-<div class="form-loader d-flex align-items-center justify-content-center">
-    <h1><i class="fa fa-circle-o-notch fa-spin"></i></h1>
-</div>
-    {!! Form::open(['method' => 'POST', 'class' => 'form-add-edit', 'route' => 'wordit.admin.' . $model['route_name'] . '.create.post']) !!}
-    <div class="form-row">
+    {!! Form::open(['method' => 'POST', 'class' => 'form-add-edit', 'route' => 'wordit.admin.' . $model->getRouteName() . '.create.post']) !!}
+    <div class="row">
         <div class="col-12 col-lg-8">
-            <div class="form-row">
-                @forelse ($model['form'] as $form)
-                    <div class="{{$form['class']}}">
-                        <div class="form-group">
-                            {!! Form::label($form['name'], $form['label']) !!}
-                            {!! Form::{$form['type']}($form['name'], null, ['class' => 'form-control', 'placeholder' => $form['placeholder']]) !!}
+            @foreach ($model->getFormFieldsLeft() as $left)
+                <div class="card">
+                    <div class="card-header">
+                        {{$left['title']}}
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach ($left['data'] as $data)
+                                <div class="{{$data['class']}}">
+                                    <div class="form-group">
+                                        {!! Form::label($data['name'], $data['label']) !!}
+                                        {!! Form::{$data['type']}($data['name'], null, ['class' => 'form-control', 'placeholder' => $data['placeholder']]) !!}
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                @empty
-                    <h2>Nie dodałeś żadnych pól, zrób to, aby móc utworzyć wartość.</h2>
-                @endforelse
-            </div>
+                </div>
+            @endforeach
         </div>
 
         <div class="col-12 col-lg-4">
-            <div class="form-row">
-                <div class="col-12">
-                    <div class="form-group">
-                        {!! Form::submit($model['labels']['add_item'], ['class' => 'btn btn-primary float-right']) !!}
+            @foreach ($model->getFormFieldsRight() as $right)
+                <div class="card">
+                    <div class="card-header">
+                        {{$right['title']}}
                     </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach ($right['data'] as $data)
+                                <div class="{{$data['class']}}">
+                                    <div class="form-group">
+                                        {!! Form::label($data['name'], $data['label']) !!}
+                                        {!! Form::{$data['type']}($data['name'], null, ['class' => 'form-control', 'placeholder' => $data['placeholder']]) !!}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <div class="card">
+                <div class="card-header">
+                    Publikacja
+                </div>
+
+                <div class="card-body">
+                    {!! Form::submit($model->label('add_item'), ['class' => 'btn btn-primary btn-block']) !!}
                 </div>
             </div>
         </div>
