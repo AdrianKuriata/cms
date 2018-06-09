@@ -42,8 +42,8 @@
                                 </td>
                             @endforeach
                             <td>
-                                <a href="{{route('wordit.admin.'. $model->getRouteName() .'.update.get', $collect->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-pencil-alt mr-0"></i></a>
-                                <button type="button" data-href="{{route('wordit.admin.'. $model->getRouteName() .'.delete', $collect->id)}}" class="btn btn-danger delete-item"><i class="fa fa-trash"></i></a>
+                                <a title="Aktualizuj" href="{{route('wordit.admin.'. $model->getRouteName() .'.update.get', $collect->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-pencil-alt mr-0"></i></a>
+                                <button title="Usuń" type="button" data-href="{{route('wordit.admin.'. $model->getRouteName() .'.delete', $collect->id)}}" class="btn btn-danger btn-sm delete-item"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     @empty

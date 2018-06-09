@@ -52,14 +52,21 @@ class ModelController extends Controller
     public function getUpdate($id)
     {
         $model = $this->model;
-        $data = $model::findOrFail($id);
+        $model_data = $model::findOrFail($id);
 
-        return view('wordit::model.update', compact('model', 'data'));
+        return view('wordit::model.update', compact('model', 'model_data'));
     }
 
     public function postUpdate(ModelRequest $request, $id)
     {
+        $model = $this->model;
+        $model_data = $model::findOrFail($id);
 
+        $model_data->update($request->all());
+
+        return response()->json([
+            'redirect' => route('wordit.admin.'. $model->getRouteName() .'.index')
+        ]);
     }
 
     public function delete($id)
