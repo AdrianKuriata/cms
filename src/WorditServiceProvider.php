@@ -6,7 +6,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Gate;
-use Akuriatadev\Wordit\Traits\WorditTrait;
+use Akuriatadev\Wordit\App\Traits\WorditTrait;
 
 class WorditServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class WorditServiceProvider extends ServiceProvider
         include_once __DIR__.'/routes/routes.php';
 
         // Load migrations
-        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         // Publish assets
         $this->publishes([
@@ -38,7 +38,7 @@ class WorditServiceProvider extends ServiceProvider
 
         // Seeds
         $this->publishes([
-            __DIR__.'/seeds' => database_path('seeds')
+            __DIR__.'/database/seeds' => database_path('seeds')
         ]);
     }
 
@@ -50,7 +50,7 @@ class WorditServiceProvider extends ServiceProvider
     public function register()
     {
          // Load views
-         $this->loadViewsFrom(__DIR__.'/views', 'wordit');
+         $this->loadViewsFrom(__DIR__.'/resources/views', 'wordit');
 
          // Merge config
          $this->mergeConfigFrom(

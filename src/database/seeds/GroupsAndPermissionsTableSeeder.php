@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Akuriatadev\Wordit\Models\Group;
+use Akuriatadev\Wordit\App\Models\Group;
 
 class GroupsAndPermissionsTableSeeder extends Seeder
 {
@@ -24,7 +24,7 @@ class GroupsAndPermissionsTableSeeder extends Seeder
             'can_delete_user' => true,
             'can_view_group' => true,
             'can_create_group' => true,
-            'can_update_group => true',
+            'can_update_group' => true,
             'can_delete_group' => true,
             'can_view_repository' => true,
             'can_create_repository' => true,

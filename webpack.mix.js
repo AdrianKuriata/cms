@@ -14,5 +14,5 @@ let mix = require('laravel-mix');
 // This is needed if you using WindowsOS
 mix.setPublicPath(path.normalize('C:/Users/Adrian/code/cms/packages/akuriatadev/wordit'));
 
-mix.js('src/assets/js/app.js', 'src/public/js')
-   .sass('src/assets/sass/app.scss', 'src/public/css');
+mix.js('src/resources/assets/js/app.js', 'src/public/js')
+   .sass('src/resources/assets/sass/app.scss', 'src/public/css');

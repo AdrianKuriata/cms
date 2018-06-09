@@ -19,8 +19,8 @@
     },
     "autoload": {
         "classmap": [
-            "src/seeds",
-            "src/controllers"
+            "src/database/seeds",
+            "src/app/controllers"
         ]
     }
 }

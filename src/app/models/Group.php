@@ -1,6 +1,6 @@
 <?php
 
-namespace Akuriatadev\Wordit\Models;
+namespace Akuriatadev\Wordit\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,12 +17,12 @@ class Group extends Model
 
     public function users()
     {
-        return $this->hasMany('Akuriatadev\Wordit\Models\User');
+        return $this->hasMany('Akuriatadev\Wordit\App\Models\User');
     }
 
     public function permission()
     {
-        return $this->hasOne('Akuriatadev\Wordit\Models\Permission');
+        return $this->hasOne('Akuriatadev\Wordit\App\Models\Permission');
     }
 
     public function scopeWithoutRoots($query)

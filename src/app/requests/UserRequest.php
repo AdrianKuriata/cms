@@ -1,6 +1,6 @@
 <?php
 
-namespace Akuriatadev\Wordit\Requests;
+namespace Akuriatadev\Wordit\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

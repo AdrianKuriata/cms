@@ -1,9 +1,9 @@
 <?php
 
-namespace Akuriatadev\Wordit\Requests;
+namespace Akuriatadev\Wordit\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Akuriatadev\Wordit\Traits\WorditTrait;
+use Akuriatadev\Wordit\App\Traits\WorditTrait;
 
 class GroupRequest extends FormRequest
 {

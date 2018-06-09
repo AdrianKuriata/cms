@@ -42,7 +42,7 @@
                             {{$user->email}}
                         </td>
                         <td>
-                            {{$user->group->name}}
+                            {{$user->group->name?? 'Brak danych'}}
                         </td>
                         <td>
                             <a href="{{route('wordit.admin.users.update.get', $user->id)}}" class="btn btn-primary"><i class="fa fa-pencil-alt"></i></a>

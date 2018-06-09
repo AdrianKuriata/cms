@@ -1,6 +1,6 @@
 <?php
 
-namespace Akuriatadev\Wordit\Traits;
+namespace Akuriatadev\Wordit\App\Traits;
 
 trait WorditTrait {
     public function label($label)
@@ -46,6 +46,21 @@ trait WorditTrait {
         return $this->permissions;
     }
 
+    public function getPermissionsFields()
+    {
+        $permissions = [];
+        foreach ($this->getPermissions() as $perm) {
+            $permissions[$perm[0]] = $perm[1];
+        }
+
+        return $permissions;
+    }
+
+    public function getModelPermission($perm)
+    {
+        return 'can:' . $this->permissions[$perm][0];
+    }
+
     public function getAllPermissionsFillable() {
         $permissions = [
             'view-admin' => 'can_view_admin',
@@ -65,8 +80,8 @@ trait WorditTrait {
 
         foreach (config('wordit.models') as $model) {
             $getInstanceModel = new $model;
-            if (is_array($getInstanceModel->getPermissions())) {
-                $permissions = array_merge($permissions, $getInstanceModel->getPermissions());
+            if (is_array($getInstanceModel->getPermissionsFields())) {
+                $permissions = array_merge($permissions, $getInstanceModel->getPermissionsFields());
             }
         }
 

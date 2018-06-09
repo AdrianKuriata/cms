@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth', 'can:view-admin'], 'namespace' => 'Akuriatadev\Wordit\Controllers'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth', 'can:view-admin'], 'namespace' => 'Akuriatadev\Wordit\App\Controllers'], function () {
     // Dashboard
     Route::get('/', 'DashboardController@index')->name('wordit.admin.dashboard.index');
 
@@ -27,7 +27,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth', 'can:view-adm
     // });
 
     // Users
-    Route::group(['prefix' => 'users'], function () {
+    Route::group(['prefix' => 'users', 'middleware' => 'can:view-user'], function () {
         Route::get('/', 'UserController@index')->name('wordit.admin.users.index');
 
         Route::group(['prefix' => 'create', 'middleware' => 'can:create-user'], function () {
@@ -40,7 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth', 'can:view-adm
             Route::post('/{id}', 'UserController@postUpdate')->name('wordit.admin.users.update.post');
         });
 
-        Route::post('/delete/{id}', 'UserController@delete')->name('wordit.admin.users.delete');
+        Route::post('/delete/{id}', 'UserController@delete')->middleware('can:delete-user')->name('wordit.admin.users.delete');
     });
 
     // Groups
@@ -66,21 +66,21 @@ if (!empty(config('wordit.models'))) {
         $model = new $model;
 
         if ($model->getController() != false) {
-            Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth', 'can:view-admin']], function () use ($model) {
+            Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth', 'can:view-admin', $model->getModelPermission('view')]], function () use ($model) {
                 Route::group(['prefix' => $model->getRouteName(), 'as' => 'wordit.admin.'], function () use ($model) {
                     Route::get('/', $model->getController() . '@index')->name($model->getRouteName().'.index');
 
-                    Route::group(['prefix' => 'create'], function () use ($model) {
+                    Route::group(['prefix' => 'create', 'middleware' => $model->getModelPermission('create')], function () use ($model) {
                         Route::get('/', $model->getController() . '@getCreate')->name($model->getRouteName().'.create.get');
                         Route::post('/', $model->getController() . '@postCreate')->name($model->getRouteName().'.create.post');
                     });
 
-                    Route::group(['prefix' => 'update'], function () use ($model) {
+                    Route::group(['prefix' => 'update', 'middleware' => $model->getModelPermission('update')], function () use ($model) {
                         Route::get('/{id}', $model->getController() . '@getUpdate')->name($model->getRouteName().'.update.get');
                         Route::post('/{id}', $model->getController() . '@postUpdate')->name($model->getRouteName().'.update.post');
                     });
 
-                    Route::post('/delete/{id}', $model->getController() . '@delete')->name($model->getRouteName() . '.delete');
+                    Route::post('/delete/{id}', $model->getController() . '@delete')->middleware($model->getModelPermission('delete'))->name($model->getRouteName() . '.delete');
                 });
             });
         } else {

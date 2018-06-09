@@ -1,11 +1,11 @@
 <?php
 
-namespace Akuriatadev\Wordit\Controllers;
+namespace Akuriatadev\Wordit\App\Controllers;
 
 use Illuminate\Http\Request;
-use Akuriatadev\Wordit\Models\User;
-use Akuriatadev\Wordit\Models\Group;
-use Akuriatadev\Wordit\Requests\UserRequest;
+use Akuriatadev\Wordit\App\Models\User;
+use Akuriatadev\Wordit\App\Models\Group;
+use Akuriatadev\Wordit\App\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -31,7 +31,7 @@ class UserController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email')
         ]);
-        $user->group()->associate($request->input('group_id'));
+        $user->group()->associate($request->input('group_id')?? 2);
         $user->save();
 
         return response()->json([

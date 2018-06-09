@@ -1,10 +1,10 @@
 <?php
 
-namespace Akuriatadev\Wordit\Controllers;
+namespace Akuriatadev\Wordit\App\Controllers;
 
 use Illuminate\Http\Request;
 
-use Akuriatadev\Wordit\Requests\ModelRequest;
+use Akuriatadev\Wordit\App\Requests\ModelRequest;
 
 use App\Http\Controllers\Controller;
 

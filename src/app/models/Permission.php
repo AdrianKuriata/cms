@@ -1,9 +1,9 @@
 <?php
 
-namespace Akuriatadev\Wordit\Models;
+namespace Akuriatadev\Wordit\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Akuriatadev\Wordit\Traits\WorditTrait;
+use Akuriatadev\Wordit\App\Traits\WorditTrait;
 
 class Permission extends Model
 {
@@ -13,6 +13,6 @@ class Permission extends Model
 
     public function group()
     {
-        return $this->belongsTo('Akuriatadev\Wordit\Models\Group');
+        return $this->belongsTo('Akuriatadev\Wordit\App\Models\Group');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Akuriatadev\Wordit\Controllers;
+namespace Akuriatadev\Wordit\App\Controllers;
 
 use Carbon\Carbon;
 

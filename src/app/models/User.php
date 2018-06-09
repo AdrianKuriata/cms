@@ -1,6 +1,6 @@
 <?php
 
-namespace Akuriatadev\Wordit\Models;
+namespace Akuriatadev\Wordit\App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     public function group() {
-        return $this->belongsTo('Akuriatadev\Wordit\Models\Group');
+        return $this->belongsTo('Akuriatadev\Wordit\App\Models\Group');
     }
 
     public function hasPermission($perm) {
